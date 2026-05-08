@@ -25,7 +25,7 @@ public class AuthServiceImpl  implements AuthService{
     @Override
     public ResponseEntity<?> login(LoginRequestDTO loginRequest ) {
         try {
-            UserDTO user = userService.fetchUserProfileByUserName(loginRequest.getUsername());
+            UserDTO user = userService.fetchUserProfileByUserName(loginRequest.getUsername()).getData();
             if (user == null) {
                 return ResponseEntity.status(404).body("User not found");
             }
