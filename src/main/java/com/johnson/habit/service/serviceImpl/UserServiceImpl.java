@@ -9,6 +9,7 @@ import com.johnson.habit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,23 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     
 
+    public SuccessResponse<UserEntity> getUserProfileByUsername(String username) {
+        log.info("Getting user profile by username: {}", username);
+        SuccessResponse<UserEntity> response = new SuccessResponse<>();
+        try{
+            response.setData(userRepository.findByUsername(username));
+            response.setMessage("Success");
+            response.setStatusCode(200);
+
+        }catch(EmptyResultDataAccessException e){
+            response.setStatusCode(400);
+            response.setMessage("Username not found");
+            response.setData(null);
+            throw new DefaultErrorException("User not found");
+        }
+        return response;
+
+    }
     public SuccessResponse<UserDTO> fetchUserProfileByUserName(String username) {
         log.info("Inside fetchUserProfileByUserName - start");
         try {
@@ -46,8 +64,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setEmail(userEntity.getEmail());
         userDTO.setAvatarUrl(userEntity.getAvatarUrl());
         userDTO.setPassword(userEntity.getPassword());
-
-        // Construct success response
         SuccessResponse<UserDTO> successResponse = new SuccessResponse<>();
         successResponse.setData(userDTO);
         successResponse.setMessage("Successfully fetched user profile");

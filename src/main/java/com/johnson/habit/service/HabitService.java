@@ -1,13 +1,14 @@
 package com.johnson.habit.service;
 
 import com.johnson.habit.entity.Habit;
+import com.johnson.habit.response.SuccessResponse;
 
 import java.util.UUID;
 
 public interface HabitService {
-    Habit createHabit(Habit habit);
+    SuccessResponse<Habit> createHabit(Habit habit);
     void deleteHabit(UUID id);
-    void updateHabit(Habit habit);
-    Habit getHabit(UUID id);
+    SuccessResponse<Habit> updateHabit(Habit habit);
+    SuccessResponse<Habit> getHabit(UUID id);
 
 }

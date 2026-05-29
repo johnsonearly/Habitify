@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,10 +18,10 @@ public class UserEntity {
     private String avatarUrl;
     private int totalPoints;
     private int level;
-    @ManyToOne
-    @JoinColumn(name = "milestone_id")
-    private Milestone milestone;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Habit> habits;
     private int xp;
     private String password;
     private LocalDateTime createdAt;
+
 }

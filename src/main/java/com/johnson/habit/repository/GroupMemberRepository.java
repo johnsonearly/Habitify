@@ -1,9 +1,9 @@
 package com.johnson.habit.repository;
 
-import com.johnson.habit.entity.Milestone;
+import com.johnson.habit.entity.GroupMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface MileStoneRepository  extends JpaRepository<Milestone, UUID> {
+public interface GroupMemberRepository extends JpaRepository<GroupMember, UUID> {
 }

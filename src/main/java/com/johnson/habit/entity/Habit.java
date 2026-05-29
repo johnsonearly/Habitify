@@ -1,10 +1,10 @@
 package com.johnson.habit.entity;
 
-import com.johnson.habit.entity.enums.GroupCategory;
 import com.johnson.habit.entity.enums.HabitCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,5 +23,11 @@ public class Habit {
     private int currentStreak;
     private int longestStreak;
     private boolean isActive;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL)
+    private List<Milestone> milestones;
 
 }

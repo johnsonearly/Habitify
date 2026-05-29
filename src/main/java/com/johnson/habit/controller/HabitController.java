@@ -1,6 +1,7 @@
 package com.johnson.habit.controller;
 
 import com.johnson.habit.entity.Habit;
+import com.johnson.habit.response.SuccessResponse;
 import com.johnson.habit.service.HabitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,16 @@ public class HabitController {
     private final HabitService habitService;
 
     @PostMapping("/create-habit")
-    public ResponseEntity<String> createHabit(@RequestBody Habit habit) {
-        habitService.createHabit(habitService.createHabit(habit));
-        return ResponseEntity.ok("Habit created");
+    public ResponseEntity<SuccessResponse<Habit>> createHabit(@RequestBody Habit habit) {
+        return ResponseEntity.ok(habitService.createHabit(habit));
     }
     @PutMapping ("/update-habit/{id}")
-    public ResponseEntity<String> updateHabit(@PathVariable UUID id, @RequestBody Habit habit) {
-        habitService.updateHabit(habit);
-        return ResponseEntity.ok("Habit updated");
+    public ResponseEntity<SuccessResponse<Habit>> updateHabit(@PathVariable UUID id, @RequestBody Habit habit) {
+        return ResponseEntity.ok(habitService.updateHabit(habit));
     }
     @GetMapping("/get-habit/{id}")
-    public Habit getHabit(@PathVariable UUID id) {
-        return habitService.getHabit(id);
+    public ResponseEntity<SuccessResponse<Habit>>  getHabit(@PathVariable UUID id) {
+        return ResponseEntity.ok(habitService.getHabit(id));
     }
 
 
