@@ -22,6 +22,7 @@ public class GroupMember {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    private String habit;
 
 
 

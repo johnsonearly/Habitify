@@ -11,6 +11,7 @@ import com.johnson.habit.repository.MileStoneRepository;
 import com.johnson.habit.response.SuccessResponse;
 import com.johnson.habit.response.exception.DefaultErrorException;
 import com.johnson.habit.service.AIHabitGenerationService;
+import com.johnson.habit.service.GroupTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -32,6 +33,7 @@ public class AIHabitGenerationServiceImpl implements AIHabitGenerationService {
     private final MileStoneRepository milestoneRepository;
     private final ObjectMapper objectMapper;
     private final UserServiceImpl userService;
+    private final GroupTableService groupTableService;
 
     @Value("${gemini.api.key}")
     private String apiKey;
@@ -191,7 +193,6 @@ public class AIHabitGenerationServiceImpl implements AIHabitGenerationService {
                 milestone.setStartDay(m.get("startDay").asInt());
                 milestone.setEndDay(m.get("endDay").asInt());
                 milestone.setCompleted(false);
-                // only the first milestone is active at the start
                 milestone.setActive(isFirst);
                 milestoneRepository.save(milestone);
                 milestones.add(milestone);
@@ -200,11 +201,13 @@ public class AIHabitGenerationServiceImpl implements AIHabitGenerationService {
             }
             habit.setMilestones(milestones);
             habitRepository.save(habit);
+            groupTableService.findGroupByHabitCategory(habit, user);
             return habit;
 
         } catch (Exception e) {
             throw new DefaultErrorException("Failed to parse habit from Gemini: " + e.getMessage());
         }
     }
+
 }
 

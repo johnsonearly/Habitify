@@ -1,10 +1,11 @@
 package com.johnson.habit.entity;
 
-import com.johnson.habit.entity.enums.GroupCategory;
+import com.johnson.habit.entity.enums.HabitCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,14 +25,15 @@ public class GroupTable {
     private String inviteCode;
 
     @Enumerated(EnumType.STRING)
-    private GroupCategory category;
+    private HabitCategory category;
 
     @ManyToOne
     @JoinColumn(name = "created_by")
     private UserEntity createdBy;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<GroupMember> members;
+    private List<GroupMember> members = new ArrayList<>();
+
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
